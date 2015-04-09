@@ -1,0 +1,3 @@
+[submodule "plugins/markercluster"]
+	path = plugins/markercluster
+	url = https://github.com/wf9a5m75/markercluster

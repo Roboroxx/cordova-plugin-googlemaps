@@ -43,6 +43,7 @@
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
 		5C43EA5A5462442EAB101BF8 /* MyPluginLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 63144DEFB6CD46DD87C9A5E0 /* MyPluginLayer.m */; };
 		5F437FD31E6F407DA3886991 /* PluginUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 267324CF93354F74A2B16D25 /* PluginUtil.m */; };
+		655E1E0E2CC64928845B9242 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B8870FF9063B418AA291C574 /* CDVLogger.m */; };
 		69589F771AD60E4C008894D7 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 69589F761AD60E4C008894D7 /* NSData+Base64.m */; };
 		69F9D60DA6A24C42BCEA7983 /* Polyline.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B9F3946044451DA19EDE8B /* Polyline.m */; };
 		6A5267A5A462482C85B5889D /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C9E24BF15364C89BCC7B485 /* libc++.dylib */; };
@@ -64,6 +65,12 @@
 		90AEB90126994027BD3A6760 /* GroundOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 4534834F160142BDB3D49D57 /* GroundOverlay.m */; };
 		96877717BEBE46328EE32083 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAF126121D0648DDA2B4AAE3 /* CoreLocation.framework */; };
 		99D9B187D1F9406CACA2525C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB44B7B3F1046989204AAB5 /* CoreData.framework */; };
+		A0D540651AD6545800D9EDE3 /* MarkerCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D540641AD6545800D9EDE3 /* MarkerCluster.m */; };
+		A0D540701AD6547100D9EDE3 /* CellLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D540671AD6547100D9EDE3 /* CellLocation.m */; };
+		A0D540711AD6547100D9EDE3 /* Cluster.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D540691AD6547100D9EDE3 /* Cluster.m */; };
+		A0D540721AD6547100D9EDE3 /* MarkerClusterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D5406B1AD6547100D9EDE3 /* MarkerClusterManager.m */; };
+		A0D540731AD6547100D9EDE3 /* MarkerClusterUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D5406D1AD6547100D9EDE3 /* MarkerClusterUtil.m */; };
+		A0D540741AD6547100D9EDE3 /* MarkerJsonData.m in Sources */ = {isa = PBXBuildFile; fileRef = A0D5406F1AD6547100D9EDE3 /* MarkerJsonData.m */; };
 		B3DDFAFD19A34A27ACCBAF21 /* MyPluginLayerDebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F6448EE3104EBBB7FB1D0E /* MyPluginLayerDebugView.m */; };
 		BA8EA7A87B3D4FCB84F50576 /* External.m in Sources */ = {isa = PBXBuildFile; fileRef = C88CC569651C48D1AF139666 /* External.m */; };
 		C2FBF5EA9B404864A5E6E7B9 /* R9HTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 88063BA2D6354AC0B1DF27FB /* R9HTTPRequest.m */; };
@@ -173,11 +180,24 @@
 		999DC07C0D6D47609D2BF41F /* MyPluginLayerDebugView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyPluginLayerDebugView.h; path = plugin.google.maps/MyPluginLayerDebugView.h; sourceTree = "<group>"; };
 		9BA2E8F21ECD4611AEB92B5E /* External.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = External.h; path = plugin.google.maps/External.h; sourceTree = "<group>"; };
 		9F64A060435F4064B703EF8D /* libicucore.dylib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		A0D540631AD6545800D9EDE3 /* MarkerCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarkerCluster.h; path = ../../../../plugins/markercluster/src/ios/MarkerCluster.h; sourceTree = "<group>"; };
+		A0D540641AD6545800D9EDE3 /* MarkerCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkerCluster.m; path = ../../../../plugins/markercluster/src/ios/MarkerCluster.m; sourceTree = "<group>"; };
+		A0D540661AD6547100D9EDE3 /* CellLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellLocation.h; path = ../../../../plugins/markercluster/src/ios/experimental/CellLocation.h; sourceTree = "<group>"; };
+		A0D540671AD6547100D9EDE3 /* CellLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellLocation.m; path = ../../../../plugins/markercluster/src/ios/experimental/CellLocation.m; sourceTree = "<group>"; };
+		A0D540681AD6547100D9EDE3 /* Cluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cluster.h; path = ../../../../plugins/markercluster/src/ios/experimental/Cluster.h; sourceTree = "<group>"; };
+		A0D540691AD6547100D9EDE3 /* Cluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cluster.m; path = ../../../../plugins/markercluster/src/ios/experimental/Cluster.m; sourceTree = "<group>"; };
+		A0D5406A1AD6547100D9EDE3 /* MarkerClusterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarkerClusterManager.h; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerClusterManager.h; sourceTree = "<group>"; };
+		A0D5406B1AD6547100D9EDE3 /* MarkerClusterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkerClusterManager.m; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerClusterManager.m; sourceTree = "<group>"; };
+		A0D5406C1AD6547100D9EDE3 /* MarkerClusterUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarkerClusterUtil.h; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerClusterUtil.h; sourceTree = "<group>"; };
+		A0D5406D1AD6547100D9EDE3 /* MarkerClusterUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkerClusterUtil.m; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerClusterUtil.m; sourceTree = "<group>"; };
+		A0D5406E1AD6547100D9EDE3 /* MarkerJsonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarkerJsonData.h; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerJsonData.h; sourceTree = "<group>"; };
+		A0D5406F1AD6547100D9EDE3 /* MarkerJsonData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarkerJsonData.m; path = ../../../../plugins/markercluster/src/ios/experimental/MarkerJsonData.m; sourceTree = "<group>"; };
 		A1FFE0ACCC344762AC86FB7D /* KmlOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KmlOverlay.m; path = plugin.google.maps/KmlOverlay.m; sourceTree = "<group>"; };
 		AA71B339AEA94C738F4F33D8 /* MyPluginLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyPluginLayer.h; path = plugin.google.maps/MyPluginLayer.h; sourceTree = "<group>"; };
 		ABB44B7B3F1046989204AAB5 /* CoreData.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B023046A40F34F9BB0CFBAAA /* BSD-LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = unknown; name = "BSD-LICENSE"; path = "plugin.http.request/HttpRequest/R9HTTPRequest/BSD-LICENSE"; sourceTree = "<group>"; };
 		B4F6448EE3104EBBB7FB1D0E /* MyPluginLayerDebugView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyPluginLayerDebugView.m; path = plugin.google.maps/MyPluginLayerDebugView.m; sourceTree = "<group>"; };
+		B8870FF9063B418AA291C574 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		BC20A3206CB6475C83EB26A4 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = unknown; name = README; path = plugin.http.request/README; sourceTree = "<group>"; };
 		BCA7D7DC97984DACBE529AFB /* R9HTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = R9HTTPRequest.h; path = plugin.http.request/HttpRequest/R9HTTPRequest/R9HTTPRequest.h; sourceTree = "<group>"; };
 		BDB31DD9B972440EBB917AE8 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
@@ -186,6 +206,7 @@
 		C88CC569651C48D1AF139666 /* External.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = External.m; path = plugin.google.maps/External.m; sourceTree = "<group>"; };
 		D0217ACD9E6C4FCF80377FBA /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
+		D97DA3446CFC4A88BD600236 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
 		DB3D4BAB1DDB4A4AB9641309 /* MyReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyReachability.m; path = plugin.google.maps/MyReachability.m; sourceTree = "<group>"; };
 		E2C0192DCF364D2699F112F5 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBXML.m; path = plugin.google.maps/TBXML.m; sourceTree = "<group>"; };
 		E44EE579CEA541978FD6C4EE /* TileOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileOverlay.h; path = plugin.google.maps/TileOverlay.h; sourceTree = "<group>"; };
@@ -323,6 +344,18 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				A0D540661AD6547100D9EDE3 /* CellLocation.h */,
+				A0D540671AD6547100D9EDE3 /* CellLocation.m */,
+				A0D540681AD6547100D9EDE3 /* Cluster.h */,
+				A0D540691AD6547100D9EDE3 /* Cluster.m */,
+				A0D5406A1AD6547100D9EDE3 /* MarkerClusterManager.h */,
+				A0D5406B1AD6547100D9EDE3 /* MarkerClusterManager.m */,
+				A0D5406C1AD6547100D9EDE3 /* MarkerClusterUtil.h */,
+				A0D5406D1AD6547100D9EDE3 /* MarkerClusterUtil.m */,
+				A0D5406E1AD6547100D9EDE3 /* MarkerJsonData.h */,
+				A0D5406F1AD6547100D9EDE3 /* MarkerJsonData.m */,
+				A0D540631AD6545800D9EDE3 /* MarkerCluster.h */,
+				A0D540641AD6545800D9EDE3 /* MarkerCluster.m */,
 				69589F751AD60E4C008894D7 /* NSData+Base64.h */,
 				69589F761AD60E4C008894D7 /* NSData+Base64.m */,
 				7A7ADED7A69048CF979F65E4 /* HttpRequest.m */,
@@ -368,6 +401,8 @@
 				FFDCB7490F3D42C7BB14D0E3 /* MyReachability.h */,
 				999DC07C0D6D47609D2BF41F /* MyPluginLayerDebugView.h */,
 				061F42C043E04662A10A67DC /* MyPluginScrollView.h */,
+				B8870FF9063B418AA291C574 /* CDVLogger.m */,
+				D97DA3446CFC4A88BD600236 /* CDVLogger.h */,
 			);
 			name = Plugins;
 			path = DevApp/Plugins;
@@ -554,15 +589,20 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				1B7BC7D07B96416CAE59E81A /* HttpRequest.m in Sources */,
+				A0D540741AD6547100D9EDE3 /* MarkerJsonData.m in Sources */,
 				C2FBF5EA9B404864A5E6E7B9 /* R9HTTPRequest.m in Sources */,
 				EED9F995E52E4FBB8954D275 /* README in Sources */,
+				A0D540651AD6545800D9EDE3 /* MarkerCluster.m in Sources */,
 				04E2EC5376B84123A5016794 /* BSD-LICENSE in Sources */,
 				02FF352520C24965874E20AD /* Circle.m in Sources */,
 				BA8EA7A87B3D4FCB84F50576 /* External.m in Sources */,
 				C6902B4EF5174EFCBA632206 /* Geocoder.m in Sources */,
+				A0D540701AD6547100D9EDE3 /* CellLocation.m in Sources */,
 				343EFB3D2051402F86695BD6 /* GoogleMaps.m in Sources */,
+				A0D540721AD6547100D9EDE3 /* MarkerClusterManager.m in Sources */,
 				69589F771AD60E4C008894D7 /* NSData+Base64.m in Sources */,
 				C7E2EACD08DB4C239E868547 /* GoogleMapsViewController.m in Sources */,
+				A0D540731AD6547100D9EDE3 /* MarkerClusterUtil.m in Sources */,
 				90AEB90126994027BD3A6760 /* GroundOverlay.m in Sources */,
 				6F107347D8FE453FAF82AED8 /* KmlOverlay.m in Sources */,
 				714A34A86D284CFDB279BCB8 /* Map.m in Sources */,
@@ -576,6 +616,8 @@
 				5396A104E44A4367BE7228BB /* MyReachability.m in Sources */,
 				B3DDFAFD19A34A27ACCBAF21 /* MyPluginLayerDebugView.m in Sources */,
 				11FF455324624DB781EE0ECA /* MyPluginScrollView.m in Sources */,
+				A0D540711AD6547100D9EDE3 /* Cluster.m in Sources */,
+				655E1E0E2CC64928845B9242 /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

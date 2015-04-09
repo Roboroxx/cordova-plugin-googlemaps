@@ -40,6 +40,8 @@ typedef void (^MYCompletionHandler)(NSError *error);
 @interface UIImage (GoogleMapsPlugin)
 - (UIImage*)imageByApplyingAlpha:(CGFloat) alpha;
 - (UIImage *)resize:(CGFloat)width height:(CGFloat)height;
+
+-(UIImage*) drawText:(NSString*)text;
 @end
 
 //

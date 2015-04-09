@@ -104,6 +104,35 @@
   return self;
 }
 
+// Draw text on image
+//http://stackoverflow.com/a/6993766/697856
+-(UIImage*) drawText:(NSString*) text
+{
+
+    UIGraphicsBeginImageContext(self.size);
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    [self drawInRect:rect];
+  
+    UIFont *font = [UIFont boldSystemFontOfSize:14];
+    CGSize textSize = [text sizeWithFont:font];
+
+    CGRect textRect = CGRectMake(rect.origin.x,
+                          rect.origin.y + (rect.size.height - textSize.height)/2.0,
+                          rect.size.width,
+                          textSize.height);
+  
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    [style setAlignment:NSTextAlignmentCenter];
+    NSMutableDictionary *attr = [NSMutableDictionary dictionaryWithObject:style forKey:NSParagraphStyleAttributeName];
+    [attr setValue:font forKey:NSFontAttributeName];
+    [attr setValue:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [text drawInRect:textRect withAttributes:attr];
+
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return newImage;
+}
 
 @end
 

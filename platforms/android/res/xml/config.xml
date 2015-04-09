@@ -13,6 +13,9 @@
     <feature name="Geocoder">
         <param name="android-package" value="plugin.google.maps.MyGeocoder" />
     </feature>
+    <feature name="MarkerCluster">
+        <param name="android-package" value="plugin.google.maps.experimental.MarkerCluster" />
+    </feature>
     <name>DevApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

@@ -23,6 +23,14 @@
                         {
                             "xml": "<feature name=\"Geocoder\"><param name=\"ios-package\" value=\"Geocoder\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"GoogleMaps\"><param name=\"ios-package\" value=\"MarkerCluster\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -136,6 +144,12 @@
     "installed_plugins": {
         "plugin.google.maps": {
             "API_KEY_FOR_IOS": "AIzaSyA6tsFPlaBcM_mHPK2k9rxCugXruF8Ly3Y",
+            "PACKAGE_NAME": "com.example.myapp"
+        },
+        "plugin.google.maps.experimental": {
+            "PACKAGE_NAME": "com.example.myapp"
+        },
+        "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.example.myapp"
         }
     },

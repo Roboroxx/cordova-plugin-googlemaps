@@ -26,6 +26,9 @@
     <feature name="Geocoder">
         <param name="ios-package" value="Geocoder" />
     </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <name>DevApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
