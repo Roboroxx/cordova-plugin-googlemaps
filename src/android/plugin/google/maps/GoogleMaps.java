@@ -103,7 +103,8 @@ import com.google.android.gms.maps.model.VisibleRegion;
 public class GoogleMaps extends CordovaPlugin implements OnMarkerClickListener,
       OnInfoWindowClickListener, OnMapClickListener, OnMapLongClickListener,
       OnCameraChangeListener, OnMapLoadedCallback, OnMarkerDragListener,
-      OnMyLocationButtonClickListener, OnIndoorStateChangeListener, InfoWindowAdapter {
+      OnMyLocationButtonClickListener, OnIndoorStateChangeListener, InfoWindowAdapter,
+      View.OnClickListener {
   private final String TAG = "GoogleMapsPlugin";
   private final HashMap<String, PluginEntry> plugins = new HashMap<String, PluginEntry>();
   private float density;
@@ -125,10 +126,15 @@ public class GoogleMaps extends CordovaPlugin implements OnMarkerClickListener,
   private Activity activity;
   private LinearLayout windowLayer = null;
   private ViewGroup root;
-  private final String PLUGIN_VERSION = "1.2.5";
+  private final String PLUGIN_VERSION = "1.2.6";
   public MyPluginLayout mPluginLayout = null;
   public boolean isDebug = false;
   private GoogleApiClient googleApiClient = null;
+  public boolean isCrossWalk = false;
+  private MyDialog mapDialog;
+
+  private final int CLOSE_LINK_ID = 0x7f999990;  //random
+  private final int LICENSE_LINK_ID = 0x7f99991; //random
   
   @SuppressLint("NewApi") @Override
   public void initialize(final CordovaInterface cordova, final CordovaWebView webView) {
@@ -180,19 +186,28 @@ public class GoogleMaps extends CordovaPlugin implements OnMarkerClickListener,
       });
     }
 
+    // is Crosswalk?
+
+    try {
+      Class xWalkPreferencesClass = Class.forName("org.xwalk.core.XWalkPreferences");
+      if (xWalkPreferencesClass != null) {
+        GoogleMaps.this.isCrossWalk = true;
+      }
+    } catch (Exception e) {}
+
     cordova.getActivity().runOnUiThread(new Runnable() {
       @SuppressLint("NewApi")
       public void run() {
         webView.setBackgroundColor(Color.TRANSPARENT);
         root.setBackgroundColor(Color.WHITE);
-        
-        if (webView.getParent().getClass().toString().indexOf("XWalkView") > -1) {
+
+        if (isCrossWalk) {
           return;
         }
         
         try {
           Method method = webView.getClass().getMethod("getSettings");
-          WebSettings settings = (WebSettings)method.invoke(null);
+          WebSettings settings = (WebSettings)method.invoke(webView);
           settings.setRenderPriority(RenderPriority.HIGH);
           settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         } catch (Exception e) {
@@ -603,7 +618,146 @@ public class GoogleMaps extends CordovaPlugin implements OnMarkerClickListener,
     });
     
   }
-  
+
+
+  @SuppressWarnings("unused")
+  private void showDialog(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    Activity activity = cordova.getActivity();
+    mPluginLayout.detachMyView();
+
+    // window layout
+    LinearLayout windowLayer = new LinearLayout(activity);
+    windowLayer.setPadding(0, 0, 0, 0);
+    LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
+    windowLayer.setLayoutParams(layoutParams);
+
+
+    // dialog window layer
+    FrameLayout dialogLayer = new FrameLayout(activity);
+    dialogLayer.setLayoutParams(layoutParams);
+    //dialogLayer.setPadding(15, 15, 15, 0);
+    dialogLayer.setBackgroundColor(Color.LTGRAY);
+    windowLayer.addView(dialogLayer);
+
+    // map frame
+    final FrameLayout mapFrame = new FrameLayout(activity);
+    mapFrame.setPadding(0, 0, 0, (int)(40 * density));
+    dialogLayer.addView(mapFrame);
+
+    ViewGroup.LayoutParams lParams = (ViewGroup.LayoutParams) mapView.getLayoutParams();
+    if (lParams == null) {
+      lParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+    lParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+    lParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+    if (lParams instanceof AbsoluteLayout.LayoutParams) {
+      AbsoluteLayout.LayoutParams params = (AbsoluteLayout.LayoutParams) lParams;
+      params.x = 0;
+      params.y = 0;
+      mapView.setLayoutParams(params);
+    } else if (lParams instanceof LinearLayout.LayoutParams) {
+      LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) lParams;
+      params.topMargin = 0;
+      params.leftMargin = 0;
+      mapView.setLayoutParams(params);
+    } else if (lParams instanceof FrameLayout.LayoutParams) {
+      FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) lParams;
+      params.topMargin = 0;
+      params.leftMargin = 0;
+      mapView.setLayoutParams(params);
+    }
+    mapFrame.addView(this.mapView);
+
+    // button frame
+    LinearLayout buttonFrame = new LinearLayout(activity);
+    buttonFrame.setOrientation(LinearLayout.HORIZONTAL);
+    buttonFrame.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
+    LinearLayout.LayoutParams buttonFrameParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    buttonFrame.setLayoutParams(buttonFrameParams);
+    dialogLayer.addView(buttonFrame);
+
+    //close button
+    LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+        LayoutParams.WRAP_CONTENT,
+        LayoutParams.WRAP_CONTENT, 1.0f);
+    TextView closeLink = new TextView(activity);
+    closeLink.setText("Close");
+    closeLink.setLayoutParams(buttonParams);
+    closeLink.setTextColor(Color.BLUE);
+    closeLink.setTextSize(20);
+    closeLink.setGravity(Gravity.LEFT);
+    closeLink.setPadding((int)(10 * density), 0, 0, (int)(10 * density));
+    closeLink.setOnClickListener(GoogleMaps.this);
+    closeLink.setId(CLOSE_LINK_ID);
+    buttonFrame.addView(closeLink);
+
+    //license button
+    TextView licenseLink = new TextView(activity);
+    licenseLink.setText("Legal Notices");
+    licenseLink.setTextColor(Color.BLUE);
+    licenseLink.setLayoutParams(buttonParams);
+    licenseLink.setTextSize(20);
+    licenseLink.setGravity(Gravity.RIGHT);
+    licenseLink.setPadding((int)(10 * density), (int)(20 * density), (int)(10 * density), (int)(10 * density));
+    licenseLink.setOnClickListener(GoogleMaps.this);
+    licenseLink.setId(LICENSE_LINK_ID);
+    buttonFrame.addView(licenseLink);
+
+    WebChromeClient.CustomViewCallback customCallback = new WebChromeClient.CustomViewCallback() {
+
+      @Override
+      public void onCustomViewHidden() {
+        mapFrame.removeView(mapView);
+        try {
+          Method setZOrderOnTop = webView.getClass().getDeclaredMethod("setZOrderOnTop", boolean.class);
+          setZOrderOnTop.invoke(webView, true);
+        } catch (Exception e) {}
+        webView.setVisibility(View.VISIBLE);
+
+        mPluginLayout.attachMyView(mapView);
+        onMapEvent("map_close");
+        webView.loadUrl("javascript:plugin.google.maps.Map.refreshLayout();");
+        System.gc();
+      }
+    };
+    mapDialog = new MyDialog(cordova.getActivity(), customCallback);
+    mapDialog.setContentView(windowLayer);
+    mapDialog.show();
+
+  }
+
+  @SuppressWarnings("unused")
+  private void closeDialog(final JSONArray args, final CallbackContext callbackContext) {
+    this.closeWindow();
+    this.sendNoResult(callbackContext);
+  }
+
+  private void closeWindow() {
+    if (mapDialog != null) {
+      mapDialog.onBackPressed();
+    }
+  }
+
+  private void showLicenseText() {
+    AsyncLicenseInfo showLicense = new AsyncLicenseInfo(cordova.getActivity());
+    showLicense.execute();
+  }
+
+  @Override
+  public void onClick(View view) {
+    int viewId = view.getId();
+    if (viewId == CLOSE_LINK_ID) {
+      closeWindow();
+      return;
+    }
+    if (viewId == LICENSE_LINK_ID) {
+      showLicenseText();
+      return;
+    }
+  }
+
   private float contentToView(long d) {
     return d * this.density;
   }
@@ -1270,7 +1424,6 @@ public class GoogleMaps extends CordovaPlugin implements OnMarkerClickListener,
   /**
    * Notify map event to JS
    * @param eventName
-   * @param point
    */
   public void onMapEvent(final String eventName) {
     webView.loadUrl("javascript:plugin.google.maps.Map._onMapEvent('" + eventName + "')");

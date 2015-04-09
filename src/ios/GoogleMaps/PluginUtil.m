@@ -130,7 +130,6 @@ static char CAAnimationGroupBlockKey;
 
 @end
 
-
 @implementation MainViewController (CDVViewController)
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {

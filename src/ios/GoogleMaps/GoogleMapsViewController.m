@@ -386,7 +386,11 @@ NSDictionary *initOptions;
       decodedData = [[NSData alloc] initWithBase64Encoding:(NSString *)tmp[1]];
     #else
       if ([PluginUtil isIOS7_OR_OVER]) {
-        decodedData = [NSData dataFromBase64String:tmp[1]];
+        #ifdef __CORDOVA_3_8_0
+          decodedData = [NSData cdv_dataFromBase64String:tmp[1]];
+        #else
+          decodedData = [NSData dataFromBase64String:tmp[1]];
+        #endif
       } else {
         #if !defined(__IPHONE_7_0)
           decodedData = [[NSData alloc] initWithBase64Encoding:(NSString *)tmp[1]];

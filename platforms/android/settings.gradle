@@ -1,0 +1,3 @@
+include ':cordovaLibGradle', ':CordovaLibGradle'
+project(':cordovaLibGradle').projectDir = new File('CordovaLib')
+project(':CordovaLibGradle').projectDir = new File('CordovaLib')

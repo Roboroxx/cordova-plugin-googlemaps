@@ -633,7 +633,11 @@
             #endif
           }
         #else
-          decodedData = [NSData dataFromBase64String:tmp[1]];
+          #ifdef __CORDOVA_3_8_0
+            decodedData = [NSData cdv_dataFromBase64String:tmp[1]];
+          #else
+            decodedData = [NSData dataFromBase64String:tmp[1]];
+          #endif
         #endif
         image = [[UIImage alloc] initWithData:decodedData];
         if (width && height) {
