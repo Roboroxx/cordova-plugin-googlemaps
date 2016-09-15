@@ -258,6 +258,6 @@
           </array>
         </config-file>
         
-        <dependency id="com.googlemaps.ios" url="https://hirbod@bitbucket.org/nightstomp/cordova-plugin-googlemaps-sdk.git" commit="master" />
+        <dependency id="com.googlemaps.ios" url="https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk" branch="master" />
     </platform>
 </plugin>
