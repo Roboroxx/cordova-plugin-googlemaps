@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -66,11 +67,9 @@ public class GoogleMapsClusterController extends GoogleMapsControllerImpl implem
 		left, center, right
 	}
 
-	GoogleMapsClusterController(MapView mapView, JSONObject controls, Context context) throws JSONException {
+	GoogleMapsClusterController(GoogleMap map, MapView mapView, JSONObject controls, Context context) throws JSONException {
 		this.mapView = mapView;
-		this.mapView.onCreate(null);
-		this.mapView.onResume();
-		this.setMap(mapView.getMap(), controls);
+		this.setMap(map, controls);
 		this.map.setPadding(-50, -50, -50, -50);
 
 		// Create ClusterManager

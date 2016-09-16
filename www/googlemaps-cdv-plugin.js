@@ -655,9 +655,10 @@ App.prototype.refreshLayout = function() {
 
 App.prototype.isAvailable = function(callback) {
     var self = this;
-    var tmpmap = plugin.google.maps.Map.getMap(document.createElement("div"), {});
-    tmpmap.remove();
-    tmpmap = null;
+    // Don't do like this.
+    //var tmpmap = plugin.google.maps.Map.getMap(document.createElement("div"), {});
+    //tmpmap.remove();
+    //tmpmap = null;
     cordova.exec(function() {
         if (typeof callback === "function") {
             callback.call(self, true);

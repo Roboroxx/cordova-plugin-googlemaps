@@ -1,6 +1,8 @@
 package plugin.google.maps;
 
 import android.view.View;
+
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -16,11 +18,9 @@ import plugin.google.maps.clustering.clustering.ClusterManager;
 public class GoogleMapsDefaultController extends GoogleMapsControllerImpl {
 
 
-	GoogleMapsDefaultController(MapView mapView, JSONObject controls) throws JSONException {
+	GoogleMapsDefaultController(GoogleMap map, MapView mapView, JSONObject controls) throws JSONException {
 		this.mapView = mapView;
-		this.mapView.onCreate(null);
-		this.mapView.onResume();
-		this.setMap(mapView.getMap(), controls);
+		this.setMap(map, controls);
 	}
 
 	@Override

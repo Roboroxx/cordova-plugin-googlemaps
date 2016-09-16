@@ -489,7 +489,7 @@ OnMyLocationButtonClickListener, OnIndoorStateChangeListener, InfoWindowAdapter 
             callbackContext.error(e.getMessage());
             return;
         }
-        GoogleMapOptions options = new GoogleMapOptions();
+        final GoogleMapOptions options = new GoogleMapOptions();
         final JSONObject params = args.getJSONObject(0);
         //background color
         if (params.has("backgroundColor")) {
@@ -564,112 +564,120 @@ OnMyLocationButtonClickListener, OnIndoorStateChangeListener, InfoWindowAdapter 
             options.camera(builder.build());
         }
 
+        final MapView m = new MapView(activity, options);
+        m.onCreate(null);
+        m.onResume();
 
-        JSONObject controls = null;
-        MapView m = new MapView(activity, options);
+        m.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                try {
+                    JSONObject controls = null;
+                    Boolean useDefaultController = false;
 
-        Boolean useDefaultController = false;
+                    //controller
+                    if (params.has("controller")) {
+                        JSONObject controller = params.getJSONObject("controller");
 
-        //controller
-        if (params.has("controller"))
-        {
-            JSONObject controller = params.getJSONObject("controller");
+                        if (controller.has("clustering")) {
+                            Boolean isClusteringEnabled = controller.getBoolean("clustering");
 
-            if (controller.has("clustering")) {
-                Boolean isClusteringEnabled = controller.getBoolean("clustering");
+                            if (isClusteringEnabled) {
 
-                if (isClusteringEnabled) {
+                                mapCtrl = new GoogleMapsClusterController(googleMap, m, controls, mPluginLayout.getContext());
+                                mapCtrl.setActivity(activity);
+                                mapCtrl.getMap().setOnInfoWindowClickListener(GoogleMaps.this);
+                                mapCtrl.getMap().setInfoWindowAdapter(GoogleMaps.this);
+                                //set the onlongclick event to the original --- Yasin
+                                mapCtrl.getMap().setOnMapLongClickListener(GoogleMaps.this);
 
-                    this.mapCtrl = new GoogleMapsClusterController(m, controls, mPluginLayout.getContext());
-                    this.mapCtrl.setActivity(activity);
-                    this.mapCtrl.getMap().setOnInfoWindowClickListener(this);
-                    this.mapCtrl.getMap().setInfoWindowAdapter(this);
-                    //set the onlongclick event to the original --- Yasin
-                    this.mapCtrl.getMap().setOnMapLongClickListener(this);
+                            } else {
 
-                } else {
+                                useDefaultController = true;
 
-                    useDefaultController = true;
+                            }
 
+
+                        } else {
+
+                            useDefaultController = true;
+
+                            //Log.w(TAG, "Can not create MapController because there are no controller-information's.");
+                            //callbackContext.error("Can not create mapController. Add controller and clustering option to MapOptions.");
+                        }
+
+                    } else {
+
+                        useDefaultController = true;
+                    }
+
+                    if (useDefaultController) {
+
+                        mapCtrl = new GoogleMapsDefaultController(googleMap, m, controls);
+                        mapCtrl.setActivity(activity);
+
+                        mapCtrl.getMap().setOnInfoWindowClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setInfoWindowAdapter(GoogleMaps.this);
+
+                        mapCtrl.getMap().setOnCameraChangeListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnInfoWindowClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMapClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMapLoadedCallback(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMapLongClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMarkerClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMarkerDragListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnMyLocationButtonClickListener(GoogleMaps.this);
+                        mapCtrl.getMap().setOnIndoorStateChangeListener(GoogleMaps.this);
+                    }
+
+
+                    //controls
+                    if (params.has("controls")) {
+                        controls = params.getJSONObject("controls");
+
+                        if (controls.has("myLocationButton")) {
+                            Boolean isEnabled = controls.getBoolean("myLocationButton");
+                            mapCtrl.getMap().setMyLocationEnabled(isEnabled);
+                            mapCtrl.getMap().getUiSettings().setMyLocationButtonEnabled(isEnabled);
+                        }
+                        if (controls.has("toolbar")) {
+                            Boolean isEnabled = controls.getBoolean("toolbar");
+                            mapCtrl.getMap().getUiSettings().setMapToolbarEnabled(isEnabled);
+                        }
+                        if (controls.has("indoorPicker")) {
+                            Boolean isEnabled = controls.getBoolean("indoorPicker");
+                            mapCtrl.getMap().setIndoorEnabled(isEnabled);
+                        }
+                        if (controls.has("compass")) {
+                            options.compassEnabled(controls.getBoolean("compass"));
+                        }
+                        if (controls.has("zoom")) {
+                            options.zoomControlsEnabled(controls.getBoolean("zoom"));
+                        }
+
+
+                    }
+
+                    // Load PluginMap class
+                    GoogleMaps.this.loadPlugin("Map");
+
+
+                    callbackContext.success();
+                    // ------------------------------
+                    // Embed the map if a container is specified.
+                    // ------------------------------
+                    if (args.length() == 3) {
+                        GoogleMaps.this.mapDivLayoutJSON = args.getJSONObject(1);
+                        mPluginLayout.attachMyView(mapCtrl.getMapView());
+                        GoogleMaps.this.resizeMap(args, callbackContext);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callbackContext.error(e.getMessage() + "");
                 }
 
-
-
-            } else {
-
-                useDefaultController = true;
-                
-                //Log.w(TAG, "Can not create MapController because there are no controller-information's.");
-                //callbackContext.error("Can not create mapController. Add controller and clustering option to MapOptions.");
             }
-
-        } else {
-
-            useDefaultController = true;
-        }
-
-
-        if(useDefaultController) {
-
-            this.mapCtrl = new GoogleMapsDefaultController(m, controls);
-            this.mapCtrl.setActivity(activity);
-
-            this.mapCtrl.getMap().setOnInfoWindowClickListener(this);
-            this.mapCtrl.getMap().setInfoWindowAdapter(this);
-
-            this.mapCtrl.getMap().setOnCameraChangeListener(this);
-            this.mapCtrl.getMap().setOnInfoWindowClickListener(this);
-            this.mapCtrl.getMap().setOnMapClickListener(this);
-            this.mapCtrl.getMap().setOnMapLoadedCallback(this);
-            this.mapCtrl.getMap().setOnMapLongClickListener(this);
-            this.mapCtrl.getMap().setOnMarkerClickListener(this);
-            this.mapCtrl.getMap().setOnMarkerDragListener(this);
-            this.mapCtrl.getMap().setOnMyLocationButtonClickListener(this);
-            this.mapCtrl.getMap().setOnIndoorStateChangeListener(this);
-        }
-
-
-
-        //controls
-        if (params.has("controls")) {
-            controls = params.getJSONObject("controls");
-
-            if (controls.has("myLocationButton")) {
-                Boolean isEnabled = controls.getBoolean("myLocationButton");
-                mapCtrl.getMap().setMyLocationEnabled(isEnabled);
-                mapCtrl.getMap().getUiSettings().setMyLocationButtonEnabled(isEnabled);
-            }
-            if (controls.has("toolbar")) {
-                Boolean isEnabled = controls.getBoolean("toolbar");
-                mapCtrl.getMap().getUiSettings().setMapToolbarEnabled(isEnabled);
-            }
-            if (controls.has("indoorPicker")) {
-                Boolean isEnabled = controls.getBoolean("indoorPicker");
-                mapCtrl.getMap().setIndoorEnabled(isEnabled);
-            }
-            if (controls.has("compass")) {
-                options.compassEnabled(controls.getBoolean("compass"));
-            }
-            if (controls.has("zoom")) {
-                options.zoomControlsEnabled(controls.getBoolean("zoom"));
-            }
-
-
-        }
-
-        // Load PluginMap class
-        this.loadPlugin("Map");
-
-
-        callbackContext.success();
-        // ------------------------------
-        // Embed the map if a container is specified.
-        // ------------------------------
-        if (args.length() == 3) {
-            this.mapDivLayoutJSON = args.getJSONObject(1);
-            mPluginLayout.attachMyView(mapCtrl.getMapView());
-            this.resizeMap(args, callbackContext);
-        }
+        });
 
 
          /*
