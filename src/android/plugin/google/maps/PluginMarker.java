@@ -698,6 +698,7 @@ public class PluginMarker extends MyPlugin {
       callback.onPostExecute(marker);
       return;
     }
+    iconProperty.putString("url", iconUrl);
 
 
     if (iconUrl.indexOf("http") != 0) {
